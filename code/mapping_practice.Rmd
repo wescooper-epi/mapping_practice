@@ -45,13 +45,14 @@ pre, table {
 # safer default chunk options
 knitr::opts_chunk$set(
   echo = FALSE, warning = FALSE, message = FALSE,
-  fig.height = 5, fig.width = 3.8
+  fig.height = 5, fig.width = 4
 )
 
 options(knitr.kable.NA = "--")
 
 ```
 
+Places on Jane's list to go to !
 
 ```{r map, message=FALSE, warning=FALSE, echo=FALSE}
 library(readxl)
@@ -59,6 +60,7 @@ library(dplyr)
 library(leaflet)
 library(htmltools)
 library(janitor)
+library(htmlwidgets)
 
 # --- Load Excel ---
 
@@ -71,8 +73,8 @@ icon_path <- "icons"
 
 place_icons <- icons(
 iconUrl = paste0(icon_path, "/", tolower(places$category), ".png"),
-iconWidth = 20,
-iconHeight = 20,
+iconWidth = 30,
+iconHeight = 30,
 popupAnchorX = 0,
 popupAnchorY = -15
 )
@@ -87,16 +89,62 @@ places$details, "<br><br>",
 "<a href='", places$maps, "' target='_blank'>Maps</a>"
 )
 
-leaflet(
-  data = places,
-  options = leafletOptions(zoomControl = FALSE)
-) %>% 
-  addProviderTiles("CartoDB.Positron") %>%
-addMarkers(
-lng = ~long,
-lat = ~lat,
-popup = ~popup,
-icon = place_icons
-)
+leaflet(places, options = leafletOptions(zoomControl = FALSE)) %>%
+  addTiles() %>%  # replaced immediately by JS
+  addMarkers(
+    lng = ~long,
+    lat = ~lat,
+    popup = ~popup,
+    icon = place_icons
+  ) %>%
+  onRender("
+    function(el, x) {
+
+      // --- 1. Define tile layers ---
+      var light = L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        { attribution: '© CartoDB' }
+      );
+
+      var dark = L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        { attribution: '© CartoDB' }
+      );
+
+      var map = this;
+
+      // Remove the default tiles initially
+      map.eachLayer(function(layer){
+        if(layer instanceof L.TileLayer){
+          map.removeLayer(layer);
+        }
+      });
+
+      // --- 2. Function to set tiles based on user’s current time ---
+      function updateTiles() {
+        var hour = new Date().getHours();   // USER local hour
+
+        // Remove all tile layers before switching
+        map.eachLayer(function(layer){
+          if(layer instanceof L.TileLayer){
+            map.removeLayer(layer);
+          }
+        });
+
+        if(hour >= 20 || hour < 6){
+          dark.addTo(map);   // Night mode (8pm – 6am)
+        } else {
+          light.addTo(map);  // Day mode
+        }
+      }
+
+      // --- 3. Initial load ---
+      updateTiles();
+
+      // --- 4. Auto-update every minute ---
+      setInterval(updateTiles, 600000); // 600000 ms = 10 minutes
+
+    }
+  ")
 ```
 
