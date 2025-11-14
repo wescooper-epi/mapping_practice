@@ -45,7 +45,7 @@ pre, table {
 # safer default chunk options
 knitr::opts_chunk$set(
   echo = FALSE, warning = FALSE, message = FALSE,
-  fig.height = 5, fig.width = 3.8,
+  fig.height = 5, fig.width = 3.8
 )
 
 options(knitr.kable.NA = "--")
