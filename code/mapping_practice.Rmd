@@ -20,41 +20,141 @@ knit: >
 
 
 ```{css, echo=FALSE}
-/* --- Simple style tweaks --- */
-h1.title {font-weight:bold;font-size:24px;color:##b8e994;}
-h1 {font-weight:bold;font-size:24px;color:#b8e994;}
-h2 {font-weight:bold;font-size:24px;color:black;}
-h3 {font-style:italic;font-size:16px;}
-body {font-size:16px;}
-li>ul {margin-bottom:10px;}
+/* ============================
+   GLOBAL THEME — Melbourne Map
+   ============================ */
 
-.main-container {
-  max-width: 90%;   /* default is ~940px */
-  margin-left: auto;
-  margin-right: auto;
+/* Body + text */
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  color: #2d3436;
+  background-color: #ffffff;
+  line-height: 1.6;
+  padding: 0 10px;
 }
 
-/* optional: make code and tables match width */
+/* Title styles */
+h1.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #b8e994; /* Indigo */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #b8e994;
+  margin-top: 40px;
+}
+
+h2 {
+  font-size: 22px;
+  color: #b71540; /* Red highlight */
+  border-bottom: 2px solid #b8e994;
+  padding-bottom: 4px;
+  margin-bottom: 15px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #6a89cc;
+}
+
+/* Links */
+a {
+  color: #b71540;
+}
+
+a:hover {
+  color: #6a89cc;
+  text-decoration: underline;
+}
+
+/* Main container width */
+.main-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+/* Code blocks & tables */
 pre, table {
   max-width: 100%;
+  border-radius: 6px;
 }
 
+/* Table aesthetics */
+table {
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table th {
+  background-color: #6a89cc;
+  color: white;
+  padding: 8px;
+}
+
+table td {
+  padding: 8px;
+  border: 1px solid #dcdde1;
+}
+
+/* ============================
+   LEAFLET MAP THEME
+   ============================ */
+
+/* Center map & add equal margins */
 .leaflet-container {
-  width: 95% !important;      /* keep map nicely centered */
+  width: 95% !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Mobile tweaks (screens < 600px) */
+/* Mobile adjustments */
 @media (max-width: 600px) {
   .leaflet-container {
-    width: 97% !important;    /* slight wider fit on small screens */
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: 98% !important;
+    border-radius: 10px;
   }
 }
+
+/* Popups styled with your colours */
+.leaflet-popup-content-wrapper {
+  background: #b8e994;
+  color: #2d3436;
+  border-radius: 8px;
+  border: 2px solid #b8e994;
+}
+
+.leaflet-popup-tip {
+  background: #b8e994;
+}
+
+/* ============================
+   BUTTONS (optional elements)
+   ============================ */
+
+button, .btn {
+  background-color: #b8e994;
+  border: none;
+  padding: 10px 16px;
+  color: #2d3436;
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+button:hover, .btn:hover {
+  background-color: #b71540;
+}
+
 ```
 
 
