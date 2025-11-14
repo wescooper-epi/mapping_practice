@@ -13,7 +13,7 @@ knit: >
     rmarkdown::render(
       input,
       output_file = paste0("index", ".html"),
-      output_dir = "../output"
+      output_dir = "../docs"
     )
   })
 ---
