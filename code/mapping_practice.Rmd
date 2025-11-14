@@ -1,7 +1,7 @@
 ---
 title: "Jane's Melbourne Trip - November 2025"
-author: "wescooper"
-date: "2025-11-14"
+author: "By Wes"
+date: "Latest version: 14 November 2025"
 
 output:
   html_document:
@@ -29,7 +29,7 @@ body {font-size:16px;}
 li>ul {margin-bottom:10px;}
 
 .main-container {
-  max-width: 120%;   /* default is ~940px */
+  max-width: 90%;   /* default is ~940px */
   margin-left: auto;
   margin-right: auto;
 }
@@ -45,14 +45,13 @@ pre, table {
 # safer default chunk options
 knitr::opts_chunk$set(
   echo = FALSE, warning = FALSE, message = FALSE,
-  fig.height = 4, fig.width = 8
+  fig.height = 4, fig.width = 4
 )
 
 options(knitr.kable.NA = "--")
 
 ```
 
-## Places to go
 
 ```{r map, message=FALSE, warning=FALSE, echo=FALSE}
 library(readxl)
@@ -72,8 +71,8 @@ icon_path <- "icons"
 
 place_icons <- icons(
 iconUrl = paste0(icon_path, "/", tolower(places$category), ".png"),
-iconWidth = 30,
-iconHeight = 30,
+iconWidth = 20,
+iconHeight = 20,
 popupAnchorX = 0,
 popupAnchorY = -15
 )
@@ -84,12 +83,15 @@ places$popup <- paste0(
 "<b style='font-size:16px;'>", places$placename, "</b><br>",
 "<i>", places$category, "</i><br><br>",
 places$details, "<br><br>",
-"<a href='", places$insta, "' target='_blank'>Instagram</a><br>",
-"<a href='", places$maps, "' target='_blank'>Google Maps</a>"
+"<a href='", places$insta, "' target='_blank'>Insta</a><br>",
+"<a href='", places$maps, "' target='_blank'>Maps</a>"
 )
 
-leaflet(data = places) %>%
-addProviderTiles("CartoDB.Positron") %>%
+leaflet(
+  data = places,
+  options = leafletOptions(zoomControl = FALSE)
+) %>% 
+  addProviderTiles("CartoDB.Positron") %>%
 addMarkers(
 lng = ~long,
 lat = ~lat,
