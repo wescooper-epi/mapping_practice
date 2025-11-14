@@ -38,14 +38,30 @@ li>ul {margin-bottom:10px;}
 pre, table {
   max-width: 100%;
 }
+
+.leaflet-container {
+  width: 95% !important;      /* keep map nicely centered */
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Mobile tweaks (screens < 600px) */
+@media (max-width: 600px) {
+  .leaflet-container {
+    width: 97% !important;    /* slight wider fit on small screens */
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
 ```
 
 
 ```{r setup, message=FALSE, warning=FALSE, echo=FALSE}
 # safer default chunk options
 knitr::opts_chunk$set(
-  echo = FALSE, warning = FALSE, message = FALSE,
-  fig.height = 5, fig.width = 4
+  echo = FALSE, warning = FALSE, message = FALSE
 )
 
 options(knitr.kable.NA = "--")
