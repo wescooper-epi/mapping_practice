@@ -1,1 +1,1 @@
-Template ideal R project - GitHub set up
+Website for Jane's visit
